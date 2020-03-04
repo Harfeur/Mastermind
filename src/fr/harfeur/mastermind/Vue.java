@@ -6,6 +6,7 @@ import java.awt.LayoutManager;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+@SuppressWarnings("serial")
 public class Vue extends Frame {
 	
 	public static int SCALE = 1;
@@ -14,8 +15,12 @@ public class Vue extends Frame {
 		
 		Modèle modèle = new Modèle();
 		
-		VueClavier vueClavier = new VueClavier();
+		Contrôleur c = new Contrôleur(modèle);
+		
+		VueClavier vueClavier = new VueClavier(c);
 		VuePropositions vuePropositions = new VuePropositions();
+		
+		modèle.addObserver(vuePropositions);
 
 		LayoutManager layout = new BorderLayout();
 		this.setLayout(layout);
@@ -28,8 +33,6 @@ public class Vue extends Frame {
 				System.exit(0);
 			}
 		});
-		
-		modèle.premierAffichage();
 		
 		this.pack();
 		this.setVisible(true);

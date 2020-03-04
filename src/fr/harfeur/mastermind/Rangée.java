@@ -1,9 +1,10 @@
 package fr.harfeur.mastermind;
 
 import java.awt.Color;
+import java.util.Arrays;
 
 public class Rangée {
-	
+
 	Color jetons[];
 	int indiceJeton;
 	int noirs, blancs;
@@ -32,7 +33,7 @@ public class Rangée {
 		for (int i = 0; i < Modèle.COULEURS.length; i++) {
 			int n = 0;
 			int m = 0;
-			for (int j = 0; i < this.indiceJeton; j++) {
+			for (int j = 0; j < this.indiceJeton; j++) {
 				if (correcte.jetons[j].equals(Modèle.COULEURS[i])) n++; 
 				if (this.jetons[j].equals(Modèle.COULEURS[i])) m++; 
 			}
@@ -42,6 +43,12 @@ public class Rangée {
 				this.blancs+=m;
 		}
 		return this.noirs == Modèle.DIFFICULTE;
+	}
+	
+	@Override
+	public String toString() {
+		return "Rangée [jetons=" + Arrays.toString(jetons) + ", indiceJeton=" + indiceJeton + ", noirs=" + noirs
+				+ ", blancs=" + blancs + "]";
 	}
 	
 }
