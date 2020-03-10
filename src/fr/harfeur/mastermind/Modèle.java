@@ -7,8 +7,8 @@ import java.util.Observable;
 public class Modèle extends Observable {
 	
 	public static Color COULEURS[] = {Color.YELLOW, Color.GREEN, Color.BLUE, Color.MAGENTA, Color.RED, Color.ORANGE, Color.WHITE, Color.BLACK};
-	public static int N_TENTATIVES = 15;
-	public static int DIFFICULTE = 7;
+	public static int N_TENTATIVES = 9;
+	public static int DIFFICULTE = 4;
 	enum Etat {EN_COURS, GAGNE, PERDU};
 	Etat etat;
 	Rangée combinaison;
@@ -27,13 +27,14 @@ public class Modèle extends Observable {
 		for (int i = 0; i < Modèle.DIFFICULTE; i++) {
 			this.combinaison.ajouter(Modèle.COULEURS[r.nextInt(Modèle.COULEURS.length)]);
 		}
-		System.out.println(this.combinaison);
 	}
 	
 	public void nouvelleProposition() {
 		this.tentative++;
 		if (this.tentative >= Modèle.N_TENTATIVES) {
 			this.etat = Etat.PERDU;
+			this.setChanged();
+			this.notifyObservers(etat);
 		}
 		else {
 			this.propositions[this.tentative] = new Rangée();
@@ -51,8 +52,11 @@ public class Modèle extends Observable {
 	
 	public void valider() {
 		boolean correct = this.propositions[this.tentative].vérifier(this.combinaison);
-		if (correct)
+		if (correct) {
 			this.etat = Etat.GAGNE;
+			this.setChanged();
+			this.notifyObservers(etat);
+		}
 		else
 			nouvelleProposition();
 	}
